@@ -1,15 +1,23 @@
-import { useSelector } from '../../services/store';
+import { useSelector, useDispatch } from '../../services/store';
 
 import styles from './constructor-page.module.css';
 
 import { BurgerIngredients } from '../../components';
 import { BurgerConstructor } from '../../components';
 import { Preloader } from '../../components/ui';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
+import {
+  getIngredientsSelector,
+  getIngredientsApiThunk,
+  filterIngredientsByType,
+  createConstructorObject
+} from '../../slices/api-ingredients-slice';
+import { getFeedsApiThunk } from '../../slices/api-feed-slice';
 
 export const ConstructorPage: FC = () => {
   /** TODO: взять переменную из стора */
-  const isIngredientsLoading = false;
+  const ingredients = useSelector(getIngredientsSelector);
+  const isIngredientsLoading = ingredients.isLoading;
 
   return (
     <>
