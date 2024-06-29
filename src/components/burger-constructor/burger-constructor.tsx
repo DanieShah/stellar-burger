@@ -23,6 +23,7 @@ export const BurgerConstructor: FC = () => {
   const constructorItems = useSelector(getConstructorSelector);
   const bunIdArr = useSelector(getBunIdArr);
   const ingredientsIdArr = useSelector(getIngredientIdArr);
+  const arr = bunIdArr.concat(ingredientsIdArr);
 
   const navigate = useNavigate();
 
@@ -31,12 +32,11 @@ export const BurgerConstructor: FC = () => {
   const orderModalData = useSelector(getOrderModalData);
 
   const onOrderClick = () => {
-    if (localStorage.getItem('accessToken')) {
-      const arr = bunIdArr.concat(ingredientsIdArr);
+    if (localStorage.getItem('accessToken') && bunIdArr.length) {
       dispatch(orderBurgerApiThunk(arr)).then(() => {
         dispatch(submitOrder());
       });
-    } else {
+    } else if (!localStorage.getItem('accessToken')) {
       navigate('/login');
     }
     if (!constructorItems.bun || orderRequest) return;

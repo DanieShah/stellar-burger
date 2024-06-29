@@ -44,7 +44,6 @@ const App = () => {
     dispatch(checkUserAuthThunk());
     dispatch(getIngredientsApiThunk()).then((el) => {
       dispatch(filterIngredientsByType());
-      dispatch(createConstructorObject());
     });
   }, []);
 

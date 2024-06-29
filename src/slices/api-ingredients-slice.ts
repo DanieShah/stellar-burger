@@ -6,6 +6,7 @@ import {
 } from '@reduxjs/toolkit';
 import { getIngredientsApi } from '@api';
 import { TConstructorIngredient, TIngredient } from '@utils-types';
+import { v4 as uuidv4 } from 'uuid';
 
 export const getIngredientsApiThunk = createAsyncThunk(
   'ingredients/getAllIngredients',
@@ -96,6 +97,29 @@ export const ingredientsSlice = createSlice({
         });
       }
     },
+    addIngredient: {
+      reducer: (state, action: PayloadAction<TConstructorIngredient>) => {
+        if (
+          action.payload.type === 'bun' &&
+          state.constructor.bun?._id !== action.payload._id
+        ) {
+          state.constructor.bun = action.payload;
+          if (!state.construcotBunArr.find((el) => el === action.payload._id)) {
+            state.construcotBunArr.push(action.payload._id);
+            state.construcotBunArr = state.construcotBunArr.filter(
+              (el) => el === action.payload._id
+            );
+          }
+        } else {
+          state.constructor.ingredients.push(action.payload);
+          state.constructorIngredientArr.push(action.payload._id);
+        }
+      },
+      prepare: (ingredient: TIngredient): any => {
+        const obj = { payload: { ...ingredient, id: uuidv4() } };
+        return obj;
+      }
+    },
     handleMoveDownIngredient: (
       state,
       action: PayloadAction<TConstructorIngredient>
@@ -143,8 +167,9 @@ export const ingredientsSlice = createSlice({
       ).constructor.ingredients.filter(
         (el: TConstructorIngredient) => el !== action.payload
       );
-      state.constructorIngredientArr = state.constructorIngredientArr.filter(
-        (el) => el !== action.payload._id
+      state.constructorIngredientArr.splice(
+        state.constructorIngredientArr.indexOf(action.payload._id),
+        1
       );
     },
     findIngredient: (state, action: PayloadAction<string>) => {
@@ -153,10 +178,9 @@ export const ingredientsSlice = createSlice({
       );
     },
     submitOrder: (state) => {
-      state.constructor.bun = state.constructor.bun =
-        state.filterIngredient.bun[0];
+      state.constructor.bun = null;
       state.constructor.ingredients = [];
-      state.construcotBunArr = [state.filterIngredient.bun[0]._id];
+      state.construcotBunArr = [];
       state.constructorIngredientArr = [];
     }
   },
@@ -200,5 +224,6 @@ export const {
   handleMoveUpIngredient,
   handleCloseIngredient,
   findIngredient,
-  submitOrder
+  submitOrder,
+  addIngredient
 } = ingredientsSlice.actions;
