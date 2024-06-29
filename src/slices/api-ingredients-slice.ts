@@ -68,35 +68,6 @@ export const ingredientsSlice = createSlice({
       state.constructor.bun = state.filterIngredient.bun[0];
       state.construcotBunArr.push(state.filterIngredient.bun[0]._id);
     },
-    addIngredientToConstructor: (state, action: PayloadAction<TIngredient>) => {
-      const ingredient = state.ingredients.find(
-        (el) => el._id === action.payload._id
-      );
-
-      if (
-        ingredient?.type === 'bun' &&
-        state.constructor.bun?._id !== action.payload._id
-      ) {
-        state.constructor.bun = action.payload;
-        if (!state.construcotBunArr.find((el) => el === action.payload._id)) {
-          state.construcotBunArr.push(action.payload._id);
-          state.construcotBunArr = state.construcotBunArr.filter(
-            (el) => el === action.payload._id
-          );
-        }
-      } else if (
-        !state.constructor.ingredients.find(
-          (el: TConstructorIngredient) => el.id === ingredient?._id
-        ) &&
-        ingredient?.type !== 'bun'
-      ) {
-        state.constructorIngredientArr.push(action.payload._id);
-        state.constructor.ingredients.push({
-          ...ingredient,
-          id: action.payload._id
-        });
-      }
-    },
     addIngredient: {
       reducer: (state, action: PayloadAction<TConstructorIngredient>) => {
         if (
@@ -219,7 +190,6 @@ export const ingredientsReducers = ingredientsSlice.reducer;
 export const {
   filterIngredientsByType,
   createConstructorObject,
-  addIngredientToConstructor,
   handleMoveDownIngredient,
   handleMoveUpIngredient,
   handleCloseIngredient,
