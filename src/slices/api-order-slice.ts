@@ -6,7 +6,11 @@ import {
 } from '@reduxjs/toolkit';
 import { TConstructorIngredient, TIngredient, TOrder } from '@utils-types';
 
-import { getOrderByNumberApi, getOrdersApi, orderBurgerApi } from '@api';
+import {
+  getOrderByNumberApi,
+  getOrdersApi,
+  orderBurgerApi
+} from '../utils/burger-api';
 
 export const getOrderByNumberApiThunk = createAsyncThunk(
   'order/getOrderApiByNumber',
@@ -23,7 +27,7 @@ export const orderBurgerApiThunk = createAsyncThunk(
   async (data: string[]) => orderBurgerApi(data)
 );
 
-type TOrderState = {
+export type TOrderState = {
   order: TOrder | null;
   orders: TOrder[] | [];
   isLoading: boolean;
@@ -46,7 +50,6 @@ export const orderSlice = createSlice({
   initialState,
   reducers: {
     getFinishOrder: (state) => {
-      state.orderRequest = false;
       state.orderModalData = null;
     }
   },
@@ -73,6 +76,7 @@ export const orderSlice = createSlice({
       .addCase(orderBurgerApiThunk.pending, (state, action) => {
         state.orderRequest = true;
         state.orderModalData = state.order;
+        state.orderRequest = false;
       })
       .addCase(orderBurgerApiThunk.fulfilled, (state, action) => {
         state.orderModalData = action.payload.order;

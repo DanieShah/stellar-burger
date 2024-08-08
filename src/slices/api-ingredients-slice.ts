@@ -4,7 +4,7 @@ import {
   createSlice,
   current
 } from '@reduxjs/toolkit';
-import { getIngredientsApi } from '@api';
+import { getIngredientsApi } from '../utils/burger-api';
 import { TConstructorIngredient, TIngredient } from '@utils-types';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -13,7 +13,7 @@ export const getIngredientsApiThunk = createAsyncThunk(
   async () => getIngredientsApi()
 );
 
-type TIngredientsState = {
+export type TIngredientsState = {
   ingredients: TIngredient[] | [];
   ingredient: TIngredient | undefined;
   isLoading: boolean;
@@ -24,7 +24,7 @@ type TIngredientsState = {
     main: TIngredient[] | [];
   };
   constructor: {
-    bun: TIngredient | null;
+    bun: TIngredient | TConstructorIngredient | null;
     ingredients: TConstructorIngredient[] | [] | any;
   };
   construcotBunArr: string[];

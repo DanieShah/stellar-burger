@@ -6,7 +6,7 @@ import {
   registerUserApi,
   logoutApi,
   updateUserApi
-} from '@api';
+} from '../utils/burger-api';
 import {
   PayloadAction,
   createAsyncThunk,
@@ -70,7 +70,7 @@ export const checkUserAuthThunk = createAsyncThunk(
   }
 );
 
-type TUserState = {
+export type TUserState = {
   user: TUser | null;
   isAuthCheked: boolean;
 };
@@ -97,8 +97,6 @@ export const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(registerUserApiThunk.pending, (state) => {})
-      .addCase(registerUserApiThunk.rejected, (state, action) => {})
       .addCase(registerUserApiThunk.fulfilled, (state, action) => {
         state.user = action.payload;
       })
