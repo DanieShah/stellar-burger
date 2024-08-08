@@ -1,24 +1,51 @@
-import { FC, useMemo } from 'react';
+import { FC, useEffect, useMemo } from 'react';
 import { TConstructorIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
+import { useSelector, useDispatch } from '../../services/store';
+import {
+  getBunIdArr,
+  getConstructorSelector,
+  getIngredientIdArr,
+  submitOrder
+} from '../../slices/api-ingredients-slice';
+import {
+  getFinishOrder,
+  getOrderModalData,
+  getOrderRequest,
+  getOrderSelector,
+  orderBurgerApiThunk
+} from '../../slices/api-order-slice';
+import { useNavigate } from 'react-router-dom';
 
 export const BurgerConstructor: FC = () => {
   /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
-  const constructorItems = {
-    bun: {
-      price: 0
-    },
-    ingredients: []
-  };
+  const dispatch = useDispatch();
+  const constructorItems = useSelector(getConstructorSelector);
+  const bunIdArr = useSelector(getBunIdArr);
+  const ingredientsIdArr = useSelector(getIngredientIdArr);
+  const arr = bunIdArr.concat(ingredientsIdArr);
 
-  const orderRequest = false;
+  const navigate = useNavigate();
 
-  const orderModalData = null;
+  const orderRequest = useSelector(getOrderRequest);
+
+  const orderModalData = useSelector(getOrderModalData);
 
   const onOrderClick = () => {
+    if (localStorage.getItem('accessToken') && bunIdArr.length) {
+      dispatch(orderBurgerApiThunk(arr)).then(() => {
+        dispatch(submitOrder());
+      });
+    } else if (!localStorage.getItem('accessToken')) {
+      navigate('/login');
+    }
     if (!constructorItems.bun || orderRequest) return;
   };
-  const closeOrderModal = () => {};
+  const closeOrderModal = () => {
+    if (orderModalData) {
+      dispatch(getFinishOrder());
+    }
+  };
 
   const price = useMemo(
     () =>
@@ -29,8 +56,6 @@ export const BurgerConstructor: FC = () => {
       ),
     [constructorItems]
   );
-
-  return null;
 
   return (
     <BurgerConstructorUI

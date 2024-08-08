@@ -15,7 +15,7 @@ export const ForgotPassword: FC = () => {
 
     setError(null);
     forgotPasswordApi({ email })
-      .then(() => {
+      .then((el) => {
         localStorage.setItem('resetPassword', 'true');
         navigate('/reset-password', { replace: true });
       })
