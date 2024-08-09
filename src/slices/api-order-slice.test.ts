@@ -10,6 +10,7 @@ import {
 import { TOrder } from '@utils-types';
 import { error } from 'console';
 import { TOrderResponse } from '../utils/burger-api';
+import { initialState } from './api-order-slice';
 
 describe('тесты редюсеров [api-order-slice]', () => {
   const order1: TOrder = {
@@ -30,15 +31,6 @@ describe('тесты редюсеров [api-order-slice]', () => {
     updatedAt: 'data',
     number: 23456,
     ingredients: ['1', '2', '3']
-  };
-
-  const initialState: TOrderState = {
-    order: order1,
-    orders: [order1, order2],
-    isLoading: true,
-    error: undefined,
-    orderRequest: false,
-    orderModalData: order1
   };
 
   it('окончание заказа, редюсер [getFinishOrder]', () => {

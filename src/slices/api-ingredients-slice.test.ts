@@ -15,65 +15,9 @@ import {
 import { TConstructorIngredient } from '@utils-types';
 import { act } from '@testing-library/react';
 import { error } from 'console';
+import { initialState } from './api-ingredients-slice';
 
 describe('тесты редюсеров [api-ingredients-slice]', function (): void {
-  const inititalState: TIngredientsState = {
-    ingredients: [
-      {
-        _id: '1',
-        name: 'test_1',
-        type: 'bun',
-        proteins: 123,
-        fat: 123,
-        carbohydrates: 123,
-        calories: 213,
-        price: 213,
-        image: 'string',
-        image_large: 'string',
-        image_mobile: 'string'
-      },
-      {
-        _id: '2',
-        name: 'test_2',
-        type: 'main',
-        proteins: 123,
-        fat: 123,
-        carbohydrates: 123,
-        calories: 213,
-        price: 213,
-        image: 'string',
-        image_large: 'string',
-        image_mobile: 'string'
-      },
-      {
-        _id: '3',
-        name: 'test_3',
-        type: 'sauce',
-        proteins: 123,
-        fat: 123,
-        carbohydrates: 123,
-        calories: 213,
-        price: 213,
-        image: 'string',
-        image_large: 'string',
-        image_mobile: 'string'
-      }
-    ],
-    ingredient: undefined,
-    isLoading: false,
-    error: undefined,
-    filterIngredient: {
-      bun: [],
-      main: [],
-      sauce: []
-    },
-    constructor: {
-      bun: null,
-      ingredients: []
-    },
-    construcotBunArr: [],
-    constructorIngredientArr: []
-  };
 
   const ingredient1: TConstructorIngredient = {
     _id: '12345',
@@ -122,7 +66,7 @@ describe('тесты редюсеров [api-ingredients-slice]', function (): v
 
   it('добавляем булки в конструктор, редюсер [addIngredient]', () => {
     const newState: TIngredientsState = ingredientsReducers(
-      inititalState,
+      initialState,
       addIngredient({
         _id: '3',
         name: 'test_3',
@@ -168,8 +112,51 @@ describe('тесты редюсеров [api-ingredients-slice]', function (): v
   });
 
   it('Фильтруем ингридиенты, редюсер [filterIngredientsByType]', () => {
+    const actualState = {
+      ...initialState,
+      ingredients: [{
+        _id: '1',
+        name: 'test_1',
+        type: 'bun',
+        proteins: 123,
+        fat: 123,
+        carbohydrates: 123,
+        calories: 213,
+        price: 213,
+        image: 'string',
+        image_large: 'string',
+        image_mobile: 'string'
+      },
+      {
+        _id: '2',
+        name: 'test_2',
+        type: 'main',
+        proteins: 123,
+        fat: 123,
+        carbohydrates: 123,
+        calories: 213,
+        price: 213,
+        image: 'string',
+        image_large: 'string',
+        image_mobile: 'string'
+      },
+      {
+        _id: '3',
+        name: 'test_3',
+        type: 'sauce',
+        proteins: 123,
+        fat: 123,
+        carbohydrates: 123,
+        calories: 213,
+        price: 213,
+        image: 'string',
+        image_large: 'string',
+        image_mobile: 'string'
+      }]
+    }
+
     const newState: TIngredientsState = ingredientsReducers(
-      inititalState,
+      actualState,
       filterIngredientsByType()
     );
 
@@ -226,9 +213,9 @@ describe('тесты редюсеров [api-ingredients-slice]', function (): v
 
   it('Создание массива с _id булок, редюсер [createConstructorObject]', () => {
     const newState = {
-      ...inititalState,
+      ...initialState,
       filterIngredient: {
-        ...inititalState.filterIngredient,
+        ...initialState.filterIngredient,
         bun: [
           {
             _id: '1',
@@ -258,9 +245,9 @@ describe('тесты редюсеров [api-ingredients-slice]', function (): v
 
   it('Изменение порядка ингридиентов нажатием кнопки вниз, редюсер [handleMoveDownIngredient]', () => {
     const newState = {
-      ...inititalState,
+      ...initialState,
       constructor: {
-        ...inititalState.constructor,
+        ...initialState.constructor,
         ingredients: [ingredient1, ingredient2, ingredient3]
       }
     };
@@ -277,9 +264,9 @@ describe('тесты редюсеров [api-ingredients-slice]', function (): v
 
   it('Изменение порядка ингридиентов нажатием кнопки вверх, редюсер [handleMoveUpIngredient]', () => {
     const newState = {
-      ...inititalState,
+      ...initialState,
       constructor: {
-        ...inititalState.constructor,
+        ...initialState.constructor,
         ingredients: [ingredient1, ingredient2, ingredient3]
       }
     };
@@ -296,9 +283,9 @@ describe('тесты редюсеров [api-ingredients-slice]', function (): v
 
   it('Удаление иноидиента из конструктора, редюсер [handleCloseIngredient]', () => {
     const newState = {
-      ...inititalState,
+      ...initialState,
       constructor: {
-        ...inititalState.constructor,
+        ...initialState.constructor,
         ingredients: [ingredient1, ingredient2, ingredient3]
       }
     };
@@ -314,7 +301,36 @@ describe('тесты редюсеров [api-ingredients-slice]', function (): v
   });
 
   it('Найти игридиент по [_id], рудюсер [findIngredient]', () => {
-    const newState = ingredientsReducers(inititalState, findIngredient('1'));
+    const actualState = {
+      ...initialState,
+      ingredients: [{
+        _id: '1',
+        name: 'test_1',
+        type: 'bun',
+        proteins: 123,
+        fat: 123,
+        carbohydrates: 123,
+        calories: 213,
+        price: 213,
+        image: 'string',
+        image_large: 'string',
+        image_mobile: 'string'
+      },
+      {
+        _id: '1',
+        name: 'test_1',
+        type: 'bun',
+        proteins: 123,
+        fat: 123,
+        carbohydrates: 123,
+        calories: 213,
+        price: 213,
+        image: 'string',
+        image_large: 'string',
+        image_mobile: 'string'
+      }]
+    }
+    const newState = ingredientsReducers(actualState, findIngredient('1'));
     const { ingredient } = newState;
 
     expect(ingredient).toEqual({
@@ -334,9 +350,9 @@ describe('тесты редюсеров [api-ingredients-slice]', function (): v
 
   it('Отчистка контруктора после окончания заказа, редюсер [submitOrder]', () => {
     const newState = {
-      ...inititalState,
+      ...initialState,
       constructor: {
-        ...inititalState.constructor,
+        ...initialState.constructor,
         bun: ingredient1,
         ingredients: [ingredient2, ingredient3]
       }
@@ -357,24 +373,24 @@ describe('тесты редюсеров [api-ingredients-slice]', function (): v
   describe('тесты асинхронных экшенов', () => {
     it('редюсер [getIngredientsApiThunk.pending]', () => {
       const actualState = ingredientsReducers(
-        inititalState,
+        initialState,
         getIngredientsApiThunk.pending('')
       );
 
       expect(actualState).toEqual({
-        ...inititalState,
+        ...initialState,
         isLoading: true
       });
     });
 
     it('редюсер [getIngredientsApiThunk.rejected]', () => {
       const actualState = ingredientsReducers(
-        inititalState,
+        initialState,
         getIngredientsApiThunk.rejected(new Error('TestError'), '')
       );
 
       expect(actualState).toEqual({
-        ...inititalState,
+        ...initialState,
         isLoading: false,
         error: 'TestError'
       });
@@ -382,7 +398,7 @@ describe('тесты редюсеров [api-ingredients-slice]', function (): v
 
     it('редюсер [getIngredientsApiThunk.fulfilled]', () => {
       const actualState = ingredientsReducers(
-        inititalState,
+        initialState,
         getIngredientsApiThunk.fulfilled(
           [
             {
@@ -404,7 +420,7 @@ describe('тесты редюсеров [api-ingredients-slice]', function (): v
       );
 
       expect(actualState).toEqual({
-        ...inititalState,
+        ...initialState,
         isLoading: false,
         ingredients: [
           {

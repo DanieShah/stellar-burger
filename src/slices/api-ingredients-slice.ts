@@ -31,7 +31,7 @@ export type TIngredientsState = {
   constructorIngredientArr: string[];
 };
 
-const initialState: TIngredientsState = {
+export const initialState: TIngredientsState = {
   ingredients: [],
   ingredient: undefined,
   isLoading: false,

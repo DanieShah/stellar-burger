@@ -10,16 +10,10 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { json } from 'stream/consumers';
 import { error } from 'console';
 import { store } from '../services/store';
+import { initialState } from './api-feed-slice';
 
 describe('тесты редюсеров [api-feed-slice]', () => {
   describe('тесты асинхронных экшенов', () => {
-    const initialState: TFeedState = {
-      orders: [],
-      total: 0,
-      totalToday: 0,
-      isLoading: false,
-      error: undefined
-    };
 
     const data: TFeedsResponse = {
       orders: [
@@ -47,8 +41,8 @@ describe('тесты редюсеров [api-feed-slice]', () => {
       );
       expect(actualState).toEqual({
         orders: [],
-        total: 0,
-        totalToday: 0,
+        total: null,
+        totalToday: null,
         isLoading: true,
         error: undefined
       });
@@ -64,8 +58,8 @@ describe('тесты редюсеров [api-feed-slice]', () => {
 
       expect(actualState).toEqual({
         orders: [],
-        total: 0,
-        totalToday: 0,
+        total: null,
+        totalToday: null,
         isLoading: false,
         error: 'Test Error'
       });

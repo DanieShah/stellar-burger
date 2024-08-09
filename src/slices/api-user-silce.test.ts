@@ -10,6 +10,7 @@ import {
 } from './api-user-silce';
 import { TUser } from '@utils-types';
 import { TRegisterData, TUserResponse } from '@api';
+import { initialState } from './api-user-silce';
 
 describe('тесты редюсеров [api-user-silce]', () => {
   const user1: TUser = {
@@ -20,11 +21,6 @@ describe('тесты редюсеров [api-user-silce]', () => {
   const userResponce: TUserResponse = {
     success: true,
     user: user1
-  };
-
-  const initialState: TUserState = {
-    user: null,
-    isAuthCheked: false
   };
 
   it('редюсер [setAuthChecked]', () => {

@@ -1,8 +1,12 @@
+const testUrl = 'http://localhost:4000/';
+const contructorMiddleDataCy = '[data-cy="contructor-middle"]';
+const ingredientDetailString = 'Детали ингредиента';
+
 describe('добавления игредиентов работает правильно', function(): void {
     beforeEach(function (): void {
         cy.intercept('GET', 'api/ingredients', { fixture: "ingredients.json" }).as('ingredients');
         cy.viewport(1300, 800);
-        cy.visit('http://localhost:4000/');
+        cy.visit(testUrl);
     });
 
     it('Добавиться ли ингридиент в конструктор', function (): void {
@@ -10,7 +14,7 @@ describe('добавления игредиентов работает прав�
         .contains('Добавить')
         .should('exist')
         .click();
-        cy.get('[data-cy="contructor-middle"]')
+        cy.get(contructorMiddleDataCy)
         .contains('ing_2')
         .should('exist');
     });
@@ -20,24 +24,24 @@ describe('Протестирована работа модальных окон'
     beforeEach(function (): void {
         cy.intercept('GET', 'api/ingredients', { fixture: "ingredients.json" }).as('ingredients');
         cy.viewport(1300, 800);
-        cy.visit('http://localhost:4000/');
+        cy.visit(testUrl);
     });
 
     it('Открывается ли модально окно', function(): void {
-        cy.contains('Детали ингредиента').should('not.exist');
+        cy.contains(ingredientDetailString).should('not.exist');
         cy.contains('ing_2')
         .click();
-        cy.contains('Детали ингредиента').should('exist');
+        cy.contains(ingredientDetailString).should('exist');
     });
 
     it('Закрывается ли модальное окно', function (): void {
         cy.contains('ing_2')
         .click();
-        cy.contains('Детали ингредиента').should('exist');
+        cy.contains(ingredientDetailString).should('exist');
         cy.get('[data-cy="cross-button"]')
         .should('exist')
         .click();
-        cy.contains('Детали ингредиента').should('not.exist');
+        cy.contains(ingredientDetailString).should('not.exist');
     });
 });
 
@@ -50,7 +54,7 @@ describe('Проверка отправки заказал', function (): void {
         cy.intercept('GET', 'api/auth/user', { fixture: "user.json" }).as('user');
         cy.intercept('POST', 'api/orders', { fixture: "order.json" }).as('order');
         cy.viewport(1300, 800);
-        cy.visit('http://localhost:4000/');
+        cy.visit(testUrl);
     })
 
     it('Будет ли работать заказ', function (): void {
@@ -62,7 +66,7 @@ describe('Проверка отправки заказал', function (): void {
         .click();
 
 
-        cy.get('[data-cy="contructor-middle"]').should('exist');
+        cy.get(contructorMiddleDataCy).should('exist');
 
         cy.contains('Оформить заказ')
         .click();
@@ -81,7 +85,7 @@ describe('Проверка отправки заказал', function (): void {
 
         cy.get('[data-cy="orderNumber"]').should('not.exist');
 
-        cy.get('[data-cy="contructor-middle"]').should('not.exist');
+        cy.get(contructorMiddleDataCy).should('not.exist');
     });
         
 

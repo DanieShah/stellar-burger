@@ -75,7 +75,7 @@ export type TUserState = {
   isAuthCheked: boolean;
 };
 
-const initialState: TUserState = {
+export const initialState: TUserState = {
   user: null,
   isAuthCheked: false
 };
