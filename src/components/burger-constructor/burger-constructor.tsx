@@ -39,7 +39,7 @@ export const BurgerConstructor: FC = () => {
     } else if (!localStorage.getItem('accessToken')) {
       navigate('/login');
     }
-    if (!constructorItems.bun || orderRequest) return;
+    // if (!constructorItems.bun || orderRequest) return;
   };
   const closeOrderModal = () => {
     if (orderModalData) {

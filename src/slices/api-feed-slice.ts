@@ -6,13 +6,13 @@ import {
 } from '@reduxjs/toolkit';
 import { TOrder } from '@utils-types';
 
-import { getFeedsApi } from '@api';
+import { getFeedsApi } from '../utils/burger-api';
 
 export const getFeedsApiThunk = createAsyncThunk('feed/getFeedsApi', async () =>
   getFeedsApi()
 );
 
-type TFeedState = {
+export type TFeedState = {
   orders: TOrder[] | [];
   total: number | null;
   totalToday: number | null;
@@ -20,11 +20,11 @@ type TFeedState = {
   error: string | undefined;
 };
 
-const initialState: TFeedState = {
+export const initialState: TFeedState = {
   orders: [],
   total: null,
   totalToday: null,
-  isLoading: true,
+  isLoading: false,
   error: undefined
 };
 
