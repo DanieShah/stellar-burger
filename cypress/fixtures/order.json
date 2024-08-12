@@ -1,0 +1,13 @@
+{
+    "order": {
+        "_id": "string",
+        "status": "string",
+        "name": "string",
+        "createdAt": "stred",
+        "updatedAt": "strit",
+        "number": 123456,
+        "ingredients": ["1", "2"]
+    },
+    "name": "test",
+    "success": true
+}
